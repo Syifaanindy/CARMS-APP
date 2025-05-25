@@ -17,11 +17,13 @@ typedef struct{
 
 typedef struct{
  char nama[100];
- int nik, hp;
+ long long nik, hp;
  char kode_mobil[20];
  char alamat[200];
- int tanggal_pergi;
- int tanggal_kembali;
+ char tanggal_pergi[20];
+ char tanggal_kembali [20];
+ char jam_pergi[20];
+ char jam_kembali[20];
 
 }pelanggan;
 
@@ -53,6 +55,10 @@ void hapus();
 void lihat();
 void edit();
 void cari();
+
+// pelanggan
+void menu_pelanggan();
+void booking();
 
 //laporan
 void laporan();
@@ -193,10 +199,10 @@ void kelola_mobil(){
             lihat();
             break;
         case 2:
-            tambah();
+            cari();
             break;
         case 3:
-            cari();
+            tambah();
             break;
         case 4:
             edit();
@@ -223,7 +229,7 @@ void tambah(){
         scanf("%s", kode);
 
         rewind(ptr);
-         while (fscanf(ptr, "Kode: %s/tNama: %[^\n]\tPlat: %s\tStok: %d\tKategori: %[^\n]\t Harga/jam: %d Harga/hari: %d\n", cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori,
+         while (fscanf(ptr, "Kode: %s\tNama: %[^\n]\tPlat: %s\tStok: %d\tKategori: %[^\n]\t Harga/jam: %d Harga/hari: %d\n", cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori,
              &cek.harga_perjam, &cek.harga_perhari) != EOF){
             if (strcmp(kode, cek.kode) == 0) {
                 printf("Kode %s sudah digunakan!\n", kode);
@@ -246,7 +252,7 @@ void tambah(){
     scanf("%d", &car.stok);
 
     printf("Kategori (Mobil Keluarga,Minibus): ");
-    scanf("%s", car.kategori);
+    scanf(" %[^\n]", car.kategori);
 
     printf("Harga/jam: ");
     scanf("%d",&car.harga_perjam);
@@ -254,13 +260,10 @@ void tambah(){
     printf("Harga/hari:");
     scanf("%d",&car.harga_perhari);
 
-    fprintf(ptr, "Kode: %s", car.kode);
-    fprintf(ptr, "Nama: %s", car.nama);
-    fprintf(ptr, "Plat: %s", car.plat);
-    fprintf(ptr, "Stok: %d", car.stok);
-    fprintf(ptr, "Harga/jam: %d", car.harga_perjam);
-    fprintf(ptr, "Harga/hari: %d", car.harga_perhari);
-    fprintf(ptr, "Kategori: %s\n", car.kategori); 
+    fprintf(ptr, "Kode: %s\tNama: %s\tPlat: %s\tStok: %d\tKategori: %s\tHarga/jam: %d\tHarga/hari: %d\n",
+        car.kode, car.nama, car.plat, car.stok, car.kategori,
+        car.harga_perjam, car.harga_perhari);
+
 
     fclose(ptr);
     lihat();
@@ -277,18 +280,21 @@ void lihat(){
     }
     system("cls");
     printf("========================= Data Produk ========================\n\n");
-    printf("---------------------------------------------------------------\n");
-    printf("Kode   Produk          Harga        Stok     Kategori    \n");
-    printf("---------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------------------\n");
+    printf("Kode   Produk          Harga/Hari      Harga/Jam      Stok     Kategori    \n"); 
+    printf("------------------------------------------------------------------------------\n");
 
-    while (fscanf(ptr, "%s %s %s %d %d %d %s\n", car.kode, car.nama,
-                  car.plat, &car.stok,&car.harga_perjam, &car.harga_perhari, car.kategori) != EOF) {
-        printf("%-6s %-15s %-10d %-8d %-15s\n",
-               car.kode, car.nama, car.plat, car.stok, car.harga_perjam, car.harga_perhari, car.kategori);
+    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %s\tStok: %d\tKategori: %[^\t]\tHarga/jam: %d\tHarga/hari: %d\n",
+        car.kode, car.nama, car.plat, &car.stok, car.kategori, &car.harga_perjam, &car.harga_perhari) != EOF) {
+        printf("%-6s %-15s %-15d %-15d %-8d %-15s\n",
+        car.kode, car.nama, car.harga_perhari, car.harga_perjam, car.stok, car.kategori);
     }
 
     printf("---------------------------------------------------------------\n");
     fclose(ptr);
+    printf("Tekan enter untuk kembali");
+    getchar(); 
+    getchar();
     kelola_mobil();
 
 }
@@ -300,6 +306,87 @@ void cari(){
 }
 void menu_pelanggan(){
 
+}
+void booking(){
+    pelanggan p;
+    int pilihan, found = 0;
+
+     FILE *ptr = fopen("datadiri.txt", "a+");
+     if (ptr == NULL) {
+        printf("Gagal membuka file.\n");
+        return;
+    }
+
+     printf("Masukkan Nama: ");
+     scanf(" %[^\n]", p.nama);
+
+     printf("Masukkan No.HP: ");
+     scanf("%lld", &p.hp);
+
+     printf("Masukkan NIK: ");
+     scanf("%lld", &p.nik);
+
+     printf("Masukkan Alamat: ");
+     scanf(" %[^\n]", p.alamat);
+
+     printf("Masukkan Kode Mobil: ");
+     scanf("%s", p.kode_mobil);
+
+     FILE *mobil = fopen("mobil.txt", "r");
+     if (mobil== NULL) {
+        printf("Gagal membuka file mobil.txt.\n");
+     return;
+    }
+
+    while (fscanf(mobil, "Kode: %s\tNama: %[^\t]\tPlat: %s\tStok: %d\tKategori: %[^\t]\tHarga/jam: %d\tHarga/hari: %d\n",
+              cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori,
+              &cek.harga_perjam, &cek.harga_perhari) != EOF) {
+    if (strcmp(cek.kode, p.kode_mobil) == 0) {
+        found = 1;
+        break;
+    }
+}
+
+    fclose(mobil);
+    if (!found) {
+    printf("Kode mobil tidak ditemukan!\n");
+    return;
+    }
+
+     system("cls");
+     do {
+        printf("===== Jadwal Booking ===== \n");
+        printf("1. Perhari\n");
+
+        if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
+        printf("2. Perjam\n");
+        }
+        printf("Masukkan pilihan Anda: ");
+        scanf("%d", &pilihan);
+     
+        if (pilihan ==1){
+            printf("Tanggal Pinjam (DD-MM-YYYY): ");
+            scanf("%s", p.tanggal_pergi);
+            printf("Tanggal Kembali (DD-MM-YYYY): ");
+            scanf("%s", p.tanggal_kembali);
+            fprintf(ptr, "==== BOOKING PERHARI ====\nNama: %s\nNo.HP: %lld\nNIK: %lld\nAlamat: %s\nKode Mobil: %s\nTanggal Pinjam: %s\nTanggal Kembali: %s\n\n", 
+                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, p.tanggal_pergi, p.tanggal_kembali);
+        } else if (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0){
+            printf("Tanggal Pinjam (DD-MM-YYYY): ");
+            scanf("%s", p.tanggal_pergi);
+            printf("Jam Pinjam (HH:MM): ");
+            scanf("%s", p.jam_pergi);
+            printf("Jam Kembali (HH:MM): ");
+            scanf("%s", p.jam_kembali);
+            fprintf(ptr, "==== BOOKING PERJAM ====\nNama: %s\nNo.HP: %lld\nNIK: %lld\nAlamat: %s\nKode Mobil: %s\nTanggal Pinjam: %s\nJam Pinjam: %s\nJam Kembali: %s\n\n", 
+                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, p.tanggal_pergi, p.jam_pergi, p.jam_kembali);
+
+        } else {
+            printf("Pilihan tidak valid. Silakan coba lagi.\n");
+        }
+    } while (!(pilihan == 1 || (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0)));
+        fclose(ptr);
+        printf("Booking berhasil!\n");
 }
 void laporan(){
 
