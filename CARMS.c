@@ -57,7 +57,6 @@ void edit();
 void cari();
 
 // pelanggan
-void menu_pelanggan();
 void mobil_keluarga();
 void minibus();
 void booking();
