@@ -20,17 +20,15 @@ typedef struct{
  long long nik, hp;
  char kode_mobil[20];
  char alamat[200];
- char tanggal_pergi[20];
- char tanggal_kembali [20];
- char jam_pergi[20];
- char jam_kembali[20];
 
 }pelanggan;
 
 typedef struct {
 char kode_mobil[20];
-int tanggal_pergi;
-int tanggal_kembali;
+char tanggal_pergi[20];
+char tanggal_kembali [20];
+char jam_pergi[20];
+char jam_kembali[20];
 }pesenan;
 
 typedef struct{
@@ -395,7 +393,8 @@ void minibus(){
 
 void booking(){
     pelanggan p;
-    int pilihan, found = 0;
+    pesenan ps;
+    int pilihan, hari, jam, found = 0;
 
      FILE *ptr = fopen("datadiri.txt", "a+");
      if (ptr == NULL) {
@@ -432,7 +431,6 @@ void booking(){
     }
 }
 
-    fclose(mobil);
     if (!found) {
     printf("Kode mobil tidak ditemukan!\n");
     return;
@@ -450,28 +448,60 @@ void booking(){
         scanf("%d", &pilihan);
      
         if (pilihan ==1){
+            printf("Masukkan Jumlah Hari Sewa: ");
+            scanf("%d", &hari);
             printf("Tanggal Pinjam (DD-MM-YYYY): ");
-            scanf("%s", p.tanggal_pergi);
+            scanf("%s", ps.tanggal_pergi);
             printf("Tanggal Kembali (DD-MM-YYYY): ");
-            scanf("%s", p.tanggal_kembali);
+            scanf("%s", ps.tanggal_kembali);
             fprintf(ptr, "==== BOOKING PERHARI ====\nNama: %s\nNo.HP: %lld\nNIK: %lld\nAlamat: %s\nKode Mobil: %s\nTanggal Pinjam: %s\nTanggal Kembali: %s\n\n", 
-                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, p.tanggal_pergi, p.tanggal_kembali);
+                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, ps.tanggal_pergi, ps.tanggal_kembali);
         } else if (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0){
             printf("Tanggal Pinjam (DD-MM-YYYY): ");
-            scanf("%s", p.tanggal_pergi);
+            scanf("%s", ps.tanggal_pergi);
+            printf("Masukkan Jumlah Jam Sewa: ");
+            scanf("%d", &jam);
             printf("Jam Pinjam (HH:MM): ");
-            scanf("%s", p.jam_pergi);
+            scanf("%s", ps.jam_pergi);
             printf("Jam Kembali (HH:MM): ");
-            scanf("%s", p.jam_kembali);
+            scanf("%s", ps.jam_kembali);
             fprintf(ptr, "==== BOOKING PERJAM ====\nNama: %s\nNo.HP: %lld\nNIK: %lld\nAlamat: %s\nKode Mobil: %s\nTanggal Pinjam: %s\nJam Pinjam: %s\nJam Kembali: %s\n\n", 
-                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, p.tanggal_pergi, p.jam_pergi, p.jam_kembali);
+                    p.nama, p.hp, p.nik, p.alamat, p.kode_mobil, ps.tanggal_pergi, ps.jam_pergi, ps.jam_kembali);
 
         } else {
             printf("Pilihan tidak valid. Silakan coba lagi.\n");
         }
     } while (!(pilihan == 1 || (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0)));
-        fclose(ptr);
-        printf("Booking berhasil!\n");
+    printf("============================================================\n");
+    printf("                        INVOICE                             \n");
+    printf("============================================================\n");
+    printf("Nama            : %s\n", p.nama);
+    printf("No. HP          : %lld\n", p.hp);
+    printf("NIK             : %lld\n", p.nik);
+    printf("Alamat          : %s\n", p.alamat);
+    printf("Kode Mobil      : %s\n", p.kode_mobil);
+    printf("Nama Mobil      : %s\n", cek.nama);
+    printf("Plat Mobil      : %s\n", cek.plat);
+
+   if (pilihan == 1) {
+    printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
+    printf("Tanggal Kembali : %s\n", ps.tanggal_kembali);
+    printf("Total Biaya     : Rp%d\n", hari * cek.harga_perhari);
+ } else if (pilihan == 2) {
+    printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
+    printf("Jam Pinjam      : %s\n", ps.jam_pergi);
+    printf("Jam Kembali     : %s\n", ps.jam_kembali);
+    printf("Total Biaya     : Rp%d\n", jam * cek.harga_perjam);
+}
+
+printf("============================================================\n");
+
+
+    fclose(ptr);
+    fclose(mobil);
+    printf("\nTekan enter untuk kembali");
+    getchar(); 
+    getchar();
 }
 void laporan(){
 
