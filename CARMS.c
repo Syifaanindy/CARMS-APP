@@ -36,7 +36,7 @@ typedef struct{
     char pass[20];
 }akun;
 // var global
-mobil cek, car;
+mobil cek, car, baru;
 
 // void login
 int login(akun admin, char inuser[], char inpass[]);
@@ -301,16 +301,67 @@ void lihat(){
 }
 void edit(){
     char kodetoedit[20];
-    int kode_sama=0;
+    int pilih;
     FILE *fold, *fnew;
-    fold = fopen("barang.txt", "r");
-    fnew = fopen("barang_new.txt", "w+");
-    lihat();
-    
+    fold = fopen("mobil.txt", "r");
+    fnew = fopen("mobil_new.txt", "w");
 
+    if (!fold || !fnew) {
+        printf("Gagal membuka file!\n");
+        return;
+    }
 
+    int ketemu = 0;
 
+    printf("Masukkan Kode Mobil yang ingin diedit: ");
+    scanf("%s", kodetoedit);
+    getchar();
+
+    while (fscanf(fold, "Kode: %s\tNama: %[^\t]\tPlat: %s\tStok: %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+         cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 7) {
+
+        if (strcmp(kodetoedit, cek.kode) == 0) {
+            ketemu = 1;
+            printf("\nData ditemukan:\n");
+            printf("Nama: %s\n", cek.nama);
+            printf("Plat: %s\n", cek.plat);
+            printf("Stok: %d\n", cek.stok);
+            printf("Kategori: %s\n", cek.kategori);
+            printf("Harga/jam: %d\n", cek.harga_perjam);
+            printf("Harga/hari: %d\n", cek.harga_perhari);
+
+            printf("\nEdit:\n1. Harga\n2. Stok\nPilihan: ");
+            scanf("%d", &pilih);
+
+            if (pilih == 1) {
+                if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
+                    printf("Harga/jam baru: ");
+                    scanf("%d", &cek.harga_perjam);
+                }
+                printf("Harga/hari baru: ");
+                scanf("%d", &cek.harga_perhari);
+            } else if (pilih == 2) {
+                printf("Stok baru: ");
+                scanf("%d", &cek.stok);
+            }
+        }
+        fprintf(fnew, "Kode: %s\tNama: %s\tPlat: %s\tStok: %d\tKategori: %s\tPerjam: %d\tPerhari: %d\n",
+                cek.kode, cek.nama, cek.plat, cek.stok, cek.kategori, cek.harga_perjam, cek.harga_perhari);
+    }
+
+    fclose(fold);
+    fclose(fnew);
+
+    remove("mobil.txt");
+    rename("mobil_new.txt", "mobil.txt");
+
+    if (ketemu) {
+        printf("Data berhasil diubah.\n");
+    } else {
+        printf("Kode mobil tidak ditemukan.\n");
+    }
 }
+
 void cari(){
     char kode_cari[20];
     int kode_sama = 0;
@@ -328,7 +379,8 @@ void cari(){
     printf("Masukkan Kode Mobil yang ingin Dicari: ");
     scanf("%s", kode_cari);
 
-    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %s\tStok: %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n", cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) !=EOF)
+    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %s\tStok: %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+         cek.kode, cek.nama, cek.plat, &cek.stok, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) !=EOF)
     {
         if (strcmp(cek.kode, kode_cari) == 0)
         {
