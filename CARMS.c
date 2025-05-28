@@ -755,7 +755,7 @@ void booking(){
         return;
     }
     FILE *sewa = fopen("Transaksi.txt", "a+");
-     if (ptr == NULL) {
+     if (sewa == NULL) {
         printf("Gagal membuka file.\n");
         return;
     }
@@ -850,16 +850,18 @@ void booking(){
     printf("Tanggal Kembali : %s\n", ps.tanggal_kembali);
     pembayaran=hari * cek.harga_perhari;
     printf("Total Biaya     : Rp%d\n", pembayaran);
-    fprintf(sewa, "%s\t%s\t %lld\t%lld\t%s\t%s\t%s\t%s\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, ps.total_transaksi);
+    fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n",
+        ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, pembayaran);
+
  } else if (pilihan == 2) {
     printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
     printf("Jam Pinjam      : %s\n", ps.jam_pergi);
     printf("Jam Kembali     : %s\n", ps.jam_kembali);
     pembayaran=hari * cek.harga_perjam;
     printf("Total Biaya     : Rp%d\n", jam * cek.harga_perjam);
-    fprintf(sewa, "%s\t%s\t %lld\t%lld\t%s\t%s\t%s\t%s\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.jam_pergi, ps.jam_kembali, ps.total_transaksi);
+    fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n",
+        ps.kategori_pesanan, p.nama, ps.jam_pergi, ps.jam_kembali, pembayaran);
+
 }
 
 printf("============================================================\n");
