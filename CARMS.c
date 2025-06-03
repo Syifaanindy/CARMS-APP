@@ -563,7 +563,7 @@ void mobil_keluarga(){
 
     while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
-        if (strcmp(cek.nama, nama) == 0) {
+        if (strcmp(cek.nama, nama) == 0 && strcmp(cek.kategori, "Mobil Keluarga") == 0) {
             nama_sama = 1;
             printf("\nData Mobil Ditemukan:\n");
             printf("Kode       : %s\n", cek.kode);
@@ -691,7 +691,7 @@ void minibus(){
 
     while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
-        if (strcmp(cek.nama, nama) == 0) {
+        if (strcmp(cek.nama, nama) == 0 && strcmp(cek.kategori, "Minibus") == 0) {
             nama_sama = 1;
             printf("\nData Mobil Ditemukan:\n");
             printf("Kode       : %s\n", cek.kode);
@@ -722,7 +722,7 @@ void minibus(){
 }else if (pilihan == 3) {
     menu_pelanggan();
         }
-    }
+}
 
 void bubbleSort(mobil car[], int n) {
     int i, j;
