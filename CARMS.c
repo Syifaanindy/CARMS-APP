@@ -812,8 +812,9 @@ void booking(){
             fprintf(ptr, "%s\t %lld\t%lld\t%s\t%s\n  \n", 
                     p.nama, p.hp, p.nik, p.alamat, p.kode_mobil);
             pembayaran = hari * cek.harga_perhari; 
-            fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, pembayaran);
+            fprintf(sewa, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\n\n", 
+                    ps.kategori_pesanan, p.nama, p.kode_mobil, cek.nama, cek.plat, 
+                    ps.tanggal_pergi, ps.tanggal_kembali, pembayaran);
         } else if (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0){
             strcpy(ps.kategori_pesanan,"Perjam  ");
             getchar(); 
@@ -828,8 +829,9 @@ void booking(){
             fprintf(ptr, "%s\t %lld\t%lld\t%s\t%s\n  \n", 
                     p.nama, p.hp, p.nik, p.alamat, p.kode_mobil);
             pembayaran = jam * cek.harga_perjam; 
-            fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.jam_pergi, ps.jam_kembali, pembayaran);
+            fprintf(sewa, "%s\t%s\t%s\t%s\t%s\t%s\t%s\t%d\n\n", 
+                    ps.kategori_pesanan, p.nama, p.kode_mobil, cek.nama, cek.plat, 
+                    ps.jam_pergi, ps.jam_kembali, pembayaran);
         } else {
             printf("Pilihan tidak valid. Silakan coba lagi.\n");
         }
@@ -862,7 +864,7 @@ void booking(){
     fclose(ptr);
     fclose(mobil);
     fclose(sewa);
-    printf("\nTekan enter untuk kembali");
+    printf("\nTekan enter untuk kembali...");
     getchar(); 
     getchar();
 }
