@@ -740,14 +740,14 @@ void booking(){
     pelanggan p;
     pesenan ps;
     int pilihan, hari, jam, found = 0;
-    int pembayaran;
-     FILE *ptr = fopen("datadiri.txt", "a+");
-     if (ptr == NULL) {
+    int pembayaran = 0; 
+    FILE *ptr = fopen("datadiri.txt", "a+");
+    if (ptr == NULL) {
         printf("Gagal membuka file.\n");
         return;
     }
     FILE *sewa = fopen("Transaksi.txt", "a+");
-     if (ptr == NULL) {
+    if (sewa == NULL) { 
         printf("Gagal membuka file.\n");
         return;
     }
@@ -773,8 +773,8 @@ void booking(){
      return;
     }
 
-    while (fscanf(mobil, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
-              cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) != EOF) {
+    while (fscanf(mobil, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+         cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) != EOF) {
     if (strcmp(cek.kode, p.kode_mobil) == 0) {
         found = 1;
         break;
@@ -787,17 +787,17 @@ void booking(){
     }
 
      system("cls");
-     do {
+    do {
         printf("===== Jadwal Booking ===== \n");
         printf("1. Perhari\n");
 
         if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
-        printf("2. Perjam\n");
+            printf("2. Perjam\n");
         }
         printf("Masukkan pilihan Anda: ");
         scanf("%d", &pilihan);
      
-        if (pilihan ==1){
+        if (pilihan == 1){
             strcpy(ps.kategori_pesanan,"Harian  ");
             getchar(); 
             printf("Masukkan Jumlah Hari Sewa: ");
@@ -808,9 +808,9 @@ void booking(){
             scanf("%s", ps.tanggal_kembali);
             fprintf(ptr, "%s\t %lld\t%lld\t%s\t%s\n  \n", 
                     p.nama, p.hp, p.nik, p.alamat, p.kode_mobil);
-            ps.total_transaksi=hari*cek.harga_perhari;
+            pembayaran = hari * cek.harga_perhari; 
             fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, ps.total_transaksi);
+                    ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, pembayaran);
         } else if (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0){
             strcpy(ps.kategori_pesanan,"Perjam  ");
             getchar(); 
@@ -824,14 +824,15 @@ void booking(){
             scanf("%s", ps.jam_kembali);
             fprintf(ptr, "%s\t %lld\t%lld\t%s\t%s\n  \n", 
                     p.nama, p.hp, p.nik, p.alamat, p.kode_mobil);
-            ps.total_transaksi=jam*cek.harga_perjam;
+            pembayaran = jam * cek.harga_perjam; 
             fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.jam_pergi, ps.jam_kembali, ps.total_transaksi);
-
+                    ps.kategori_pesanan, p.nama, ps.jam_pergi, ps.jam_kembali, pembayaran);
         } else {
             printf("Pilihan tidak valid. Silakan coba lagi.\n");
         }
     } while (!(pilihan == 1 || (pilihan == 2 && strcmp(cek.kategori, "Mobil Keluarga") == 0)));
+    
+   
     printf("============================================================\n");
     printf("                        INVOICE                             \n");
     printf("============================================================\n");
@@ -843,23 +844,17 @@ void booking(){
     printf("Nama Mobil      : %s\n", cek.nama);
     printf("Plat Mobil      : %s\n", cek.plat);
 
-   if (pilihan == 1) {
-    printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
-    printf("Tanggal Kembali : %s\n", ps.tanggal_kembali);
-    printf("Total Biaya     : Rp%d\n", pembayaran);
-    fprintf(sewa, "%s\t%s\t%s\t%s\t%d\n\n", 
-                    ps.kategori_pesanan, p.nama, ps.tanggal_pergi, ps.tanggal_kembali, ps.total_transaksi);
- } else if (pilihan == 2) {
-    printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
-    printf("Jam Pinjam      : %s\n", ps.jam_pergi);
-    printf("Jam Kembali     : %s\n", ps.jam_kembali);
-    pembayaran=hari * cek.harga_perjam;
-    printf("Total Biaya     : Rp%d\n", jam * cek.harga_perjam);
+    if (pilihan == 1) {
+        printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
+        printf("Tanggal Kembali : %s\n", ps.tanggal_kembali);
+    } else if (pilihan == 2) {
+        printf("Tanggal Pinjam  : %s\n", ps.tanggal_pergi);
+        printf("Jam Pinjam      : %s\n", ps.jam_pergi);
+        printf("Jam Kembali     : %s\n", ps.jam_kembali);
+    }
     
-}
-
-printf("============================================================\n");
-
+    printf("Total Biaya     : Rp%d\n", pembayaran); 
+    printf("============================================================\n");
 
     fclose(ptr);
     fclose(mobil);
