@@ -353,43 +353,54 @@ void edit() {
         printf("Gagal membuka file!\n");
         return;
     }
+
     int ketemu = 0;
     printf("Masukkan Kode Mobil yang ingin diedit: ");
     scanf("%s", kodetoedit);
     getchar();
-    while (fscanf(fold, "Kode: %s\tNama: %[^\t]\tPlat: %s \tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
-                  cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 7) {
+
+    while (fscanf(fold, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+                 cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
         if (strcmp(kodetoedit, cek.kode) == 0) {
             ketemu = 1;
             printf("\nData ditemukan:\n");
             printf("Nama: %s\n", cek.nama);
-                        printf("Plat: %s\n", cek.plat);
+            printf("Plat: %s\n", cek.plat);
             printf("Kategori: %s\n", cek.kategori);
-            printf("Harga/jam: %d\n", cek.harga_perjam);
-            printf("Harga/hari: %d\n", cek.harga_perhari);
+            
             if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
+                printf("Harga/jam saat ini: %d\n", cek.harga_perjam);
                 printf("Harga/jam baru: ");
                 scanf("%d", &cek.harga_perjam);
             }
-            printf("Harga/hari baru: ");
+            
+            printf("Harga/hari saat ini: %d\n", cek.harga_perhari);
+            printf("\nHarga/hari baru: ");
             scanf("%d", &cek.harga_perhari);
+            getchar();
         }
-        // Tulis data ke file baru
-        fprintf(fnew, "Kode: %s\tNama: %s\tPlat: %s \tKategori: %s\tPerjam: %d\tPerhari: %d\n",
+        
+        fprintf(fnew, "Kode: %s\tNama: %s\tPlat: %s\tKategori: %s\tPerjam: %d\tPerhari: %d\n",
                 cek.kode, cek.nama, cek.plat, cek.kategori, cek.harga_perjam, cek.harga_perhari);
     }
+
     fclose(fold);
     fclose(fnew);
-    // Hapus file lama dan ganti dengan file baru
-    remove("mobil.txt");
-    rename("mobil_new.txt", "mobil.txt");if (ketemu) {
+
+    if (ketemu) {
+        remove("mobil.txt");
+        rename("mobil_new.txt", "mobil.txt");
         printf("Data berhasil diubah.\n");
     } else {
-        printf("Kode mobil tidak ditemukan.\n");
-        // Jika tidak ditemukan, hapus file baru yang tidak terpakai
         remove("mobil_new.txt");
+        printf("Kode mobil tidak ditemukan.\n");
     }
+
+    printf("\nTekan Enter untuk kembali...");
+    getchar();
+    kelola_mobil();
 }
+
 
 
 void cari(){
