@@ -482,11 +482,11 @@ void mobil_keluarga(){
     printf("Kode   Produk          Harga/Hari      Harga/Jam          Kategori    \n"); 
     printf("------------------------------------------------------------------------------\n");
 
-    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+     while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) != EOF) {
-    if (strcmp(cek.kategori, "Mobil Keluarga") == 0){
-        printf("%-6s %-15s %-15d %-15d %-8d %-15s\n",
-            cek.kode, cek.nama, cek.harga_perhari, cek.harga_perjam,cek.kategori);
+        if (strcmp(cek.kategori, "Mobil Keluarga") == 0){
+            printf("%-6s %-15s %-15d %-15d %-15s\n",
+                cek.kode, cek.nama, cek.harga_perhari, cek.harga_perjam, cek.kategori);
         }
     }
     printf("\nPilih:\n");
@@ -510,12 +510,14 @@ void mobil_keluarga(){
         printf("File tidak bisa dibuka.\n");
         return;
     }
-    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
-              car[count].kode, car[count].nama, car[count].plat,car[count].kategori,
-              &car[count].harga_perjam, &car[count].harga_perhari) != EOF) {
-        count++;
-        if (count >= MAX_MOBIL) break;
-    }
+     while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+                  car[count].kode, car[count].nama, car[count].plat, car[count].kategori,
+                  &car[count].harga_perjam, &car[count].harga_perhari) != EOF) {
+                if (strcmp(car[count].kategori, "Mobil Keluarga") == 0) {
+                    count++;
+                    if (count >= MAX_MOBIL) break;
+                }
+            }
     fclose(ptr);
 
     bubbleSort(car, count);
@@ -529,7 +531,7 @@ void mobil_keluarga(){
 
    for (int i = 0; i < count; i++) {
     if (strcmp(car[i].kategori, "Mobil Keluarga") == 0){
-        printf("%-6s %-15s %-15d %-15d %-8d %-15s\n",
+        printf("%-6s %-15s %-15d %-15d %-15s\n",  
             car[i].kode, car[i].nama, car[i].harga_perhari, car[i].harga_perjam, car[i].kategori);
     }
 }
@@ -594,7 +596,6 @@ void mobil_keluarga(){
 } 
     fclose(ptr);
 }
-
 
 void minibus(){
     int pilihan,pilih;
