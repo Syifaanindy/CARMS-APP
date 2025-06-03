@@ -370,12 +370,12 @@ void edit() {
             
             if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
                 printf("Harga/jam saat ini: %d\n", cek.harga_perjam);
-                printf("Harga/jam baru: ");
+                printf("\nHarga/jam baru: ");
                 scanf("%d", &cek.harga_perjam);
             }
             
-            printf("Harga/hari saat ini: %d\n", cek.harga_perhari);
-            printf("\nHarga/hari baru: ");
+            printf("\nHarga/hari saat ini: %d\n", cek.harga_perhari);
+            printf("Harga/hari baru: ");
             scanf("%d", &cek.harga_perhari);
             getchar();
         }
