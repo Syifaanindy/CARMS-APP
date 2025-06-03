@@ -227,14 +227,15 @@ void tambah(){
     FILE *ptr = fopen("mobil.txt", "a+");
     int kode_sama = 0;
     system("cls");
+    
     do {
         kode_sama = 0;
         printf("Masukkan kode Mobil: ");
         scanf("%s", kode);
 
         rewind(ptr);
-         while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] \tKategori: %[^\t]\t Perjam: %d Perhari: %d\n", cek.kode, cek.nama, cek.plat, cek.kategori,
-             &cek.harga_perjam, &cek.harga_perhari) != EOF){
+        while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n", 
+               cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) != EOF) {
             if (strcmp(kode, cek.kode) == 0) {
                 printf("Kode %s sudah digunakan!\n", kode);
                 kode_sama = 1;
@@ -252,22 +253,22 @@ void tambah(){
     printf("Plat Mobil: ");
     scanf(" %[^\n]", car.plat);
 
-
     printf("Kategori (Mobil Keluarga,Minibus): ");
     scanf(" %[^\n]", car.kategori);
 
-    if(strcmp(car.kategori, "Mobil Keluarga")== 0){
+    if(strcmp(car.kategori, "Mobil Keluarga") == 0) {
         printf("Harga/jam: ");
         scanf("%d", &car.harga_perjam);
+    } else {
+        car.harga_perjam = 0;  
     }
     
-    printf("Harga/hari:");
-    scanf("%d",&car.harga_perhari);
+    printf("Harga/hari: ");
+    scanf("%d", &car.harga_perhari);
 
-    fprintf(ptr, "Kode: %s\tNama: %s\tPlat: %s \tKategori: %s\tPerjam: %d\tPerhari: %d\n",
-        car.kode, car.nama, car.plat, car.kategori,
-        car.harga_perjam, car.harga_perhari);
-
+    fprintf(ptr, "Kode: %s\tNama: %s\tPlat: %s\tKategori: %s\tPerjam: %d\tPerhari: %d\n",
+            car.kode, car.nama, car.plat, car.kategori,
+            car.harga_perjam, car.harga_perhari);
 
     fclose(ptr);
     lihat();
