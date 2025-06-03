@@ -288,19 +288,15 @@ void hapus() {
     getchar();
 
     int ketemu = 0;
-    char buffer[256];
 
-    while (fgets(buffer, sizeof(buffer), fold)) {
-        if (sscanf(buffer, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] %d\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d",
-                   cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 7) {
-
-            // Jika bukan data yang ingin dihapus, tulis ke file baru
-            if (strcmp(kodetohapus, cek.kode) != 0) {
-                fprintf(fnew, "Kode: %s\tNama: %s\tPlat: %s %d\tKategori: %s\tPerjam: %d\tPerhari: %d\n",
-                        cek.kode, cek.nama, cek.plat,cek.kategori, cek.harga_perjam, cek.harga_perhari);
-            } else {
-                ketemu = 1;
-            }
+    while (fscanf(fold, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+                 cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
+        
+        if (strcmp(kodetohapus, cek.kode) != 0) {
+            fprintf(fnew, "Kode: %s\tNama: %s\tPlat: %s\tKategori: %s\tPerjam: %d\tPerhari: %d\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, cek.harga_perjam, cek.harga_perhari);
+        } else {
+            ketemu = 1;
         }
     }
 
@@ -315,6 +311,10 @@ void hapus() {
     } else {
         printf("Kode mobil tidak ditemukan.\n");
     }
+    
+    printf("\nTekan Enter untuk kembali...");
+    getchar();
+    kelola_mobil();
 }
 
 void lihat(){
