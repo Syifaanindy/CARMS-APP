@@ -409,7 +409,7 @@ void cari(){
     printf("Masukkan Kode Mobil yang ingin Dicari: ");
     scanf("%s", kode_cari);
 
-    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %s\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) !=EOF)
     {
         if (strcmp(cek.kode, kode_cari) == 0)
