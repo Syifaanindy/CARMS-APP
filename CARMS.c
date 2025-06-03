@@ -547,9 +547,11 @@ void mobil_keluarga(){
     int nama_sama = 0;
     FILE *ptr = fopen("mobil.txt", "r");
 
-    if (ptr == NULL)
-    {
+    if (ptr == NULL) {
         printf("File tidak ditemukan.\n");
+        getchar(); getchar();
+        minibus();
+        return;
     }
 
     system("cls");
@@ -557,14 +559,12 @@ void mobil_keluarga(){
     printf("\t\tCari Data Mobil\n");
     printf("============================================================\n");
     printf("Masukkan Nama Mobil yang ingin Dicari: ");
-    scanf("%s", nama);
+    scanf(" %[^\n]", nama);  
 
-    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %s \tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
-         cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) !=EOF)
-    {
-        if (strcmp(cek.nama, nama) == 0)
-        {
-           nama_sama = 1;
+    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t]\tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+         cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
+        if (strcmp(cek.nama, nama) == 0) {
+            nama_sama = 1;
             printf("\nData Mobil Ditemukan:\n");
             printf("Kode       : %s\n", cek.kode);
             printf("Nama       : %s\n", cek.nama);
@@ -575,8 +575,8 @@ void mobil_keluarga(){
             break;
         }
     }
-    if (!nama_sama)
-    {
+
+    if (!nama_sama) {
         printf("\nData Mobil dengan nama %s Tidak Ditemukan.\n", nama);
     }
     fclose(ptr);
