@@ -170,15 +170,19 @@ void menu_admin(){
 
     printf("Pilih menu:\n");
     printf("1. Kelola Data Mobil\n");
-    printf("2. Laporan\n\n");
-
+    printf("2. Laporan\n");
+    printf("3. Keluar\n\n");
+    
     printf("Input Pilihan Menu: ");
     scanf("%d",&pilihan);
     if (pilihan == 1){
         kelola_mobil();
-    }else{
+    } else if (pilihan == 2){
         laporan();
+    } else{ 
+       main();
     }
+    
 }
 void kelola_mobil(){
     int pilihan;
@@ -345,6 +349,7 @@ void lihat(){
     kelola_mobil();
 
 }
+
 void edit() {
     char kodetoedit[20];
     FILE *fold, *fnew;
@@ -664,7 +669,6 @@ void minibus(){
         }
     }
 
-
     printf("---------------------------------------------------------------\n");
     printf("Tekan enter untuk kembali");
     getchar();
@@ -738,7 +742,6 @@ void bubbleSort(mobil car[], int n) {
     }
 }
 
-
 void booking(){
     pelanggan p;
     pesenan ps;
@@ -773,6 +776,8 @@ void booking(){
      FILE *mobil = fopen("mobil.txt", "r");
      if (mobil== NULL) {
         printf("Gagal membuka file mobil.txt.\n");
+        fclose(ptr);
+        fclose(sewa);
      return;
     }
 
@@ -786,6 +791,9 @@ void booking(){
 
     if (!found) {
     printf("Kode mobil tidak ditemukan!\n");
+    fclose(ptr);
+    fclose(sewa);
+    fclose(mobil);
     return;
     }
 
@@ -867,7 +875,10 @@ void booking(){
     printf("\nTekan enter untuk kembali...");
     getchar(); 
     getchar();
+    menu_pelanggan();
 }
 void laporan(){
+
+    
 
 }
