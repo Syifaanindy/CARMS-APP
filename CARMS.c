@@ -62,6 +62,9 @@ void booking();
 
 //laporan
 void laporan();
+void menu_laporan();
+void data_pelanggan();
+void L_mobil();
 
 // bubble sort
 void bubbleSort(mobil car[], int n);
@@ -178,7 +181,7 @@ void menu_admin(){
     if (pilihan == 1){
         kelola_mobil();
     } else if (pilihan == 2){
-        laporan();
+        menu_laporan();
     } else{ 
        main();
     }
@@ -879,6 +882,160 @@ void booking(){
 }
 void laporan(){
 
-    
+}
+void menu_laporan(){
+    int pilihan;
+    system("cls");
+    printf("============================================================\n");
+    printf("\t\t\tLaporan\n");
+    printf("============================================================\n\n");
 
+    printf("Pilih Mobil:\n");
+    printf("1. Laporan Data Mobil\n");
+    printf("2. Laporan Data Pelanggan\n");
+    printf("3. Laporan Peminjaman\n");
+    printf("4. Laporan Transaksi\n\n");
+    printf("5. Keluar\n");
+    printf("Input Pilihan Menu: ");
+    scanf("%d",&pilihan);
+ if (pilihan == 1){
+        L_mobil();
+    }else if (pilihan == 2){
+        data_pelanggan();
+    }else if (pilihan == 3){
+        
+    }else if (pilihan == 4){
+        
+    }else if (pilihan == 5){
+        menu_admin();
+    }
+
+
+}
+void data_pelanggan(){
+pelanggan p;
+    mobil m;
+    FILE *f_pelanggan, *f_mobil;
+    char nama_mobil[50] = "-";
+    int ditemukan;
+
+    f_pelanggan = fopen("datadiri.txt", "r");
+    if (f_pelanggan == NULL) {
+        printf("File pelanggan tidak ditemukan.\n");
+        return;
+    }
+
+    system("cls");
+    printf("========================= Data Pelanggan ========================\n\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+    printf("Nama           HP             NIK             Alamat                    Mobil yang Disewa\n");
+    printf("---------------------------------------------------------------------------------------------\n");
+
+    while (fscanf(f_pelanggan, "%[^\t]\t%lld\t%lld\t%[^\t]\t%[^\n]\n", 
+                  p.nama, &p.hp, &p.nik, p.alamat, p.kode_mobil) != EOF) {
+               
+        f_mobil = fopen("mobil.txt", "r");
+        if (f_mobil == NULL) {
+            printf("File mobil tidak ditemukan.\n");
+            fclose(f_pelanggan);
+            return;
+        }
+        ditemukan = 0;
+        while (fscanf(f_mobil, "%s\t%s\t%[^\t]\t%s\t%d\t%d\n", 
+                      m.kode, m.kategori, m.nama, m.plat, &m.harga_perhari, &m.harga_perjam) != EOF) {
+            if (strcmp(p.kode_mobil, m.kode) == 0) {
+                strcpy(nama_mobil, m.nama);
+                ditemukan = 1;
+                break;
+            }
+        }
+        
+        if (!ditemukan) {
+            strcpy(nama_mobil, "-");
+        }
+
+        printf("%-15s %-15lld %-15lld %-25s %-20s\n", 
+               p.nama, p.hp, p.nik, p.alamat, nama_mobil);
+    }
+     printf("%s",p.kode_mobil);
+    printf("---------------------------------------------------------------------------------------------\n");
+    fclose(f_pelanggan);
+    fclose(f_mobil);
+    printf("Tekan enter untuk kembali...");
+    getchar(); 
+    getchar();
+    kelola_mobil();
+}
+void L_mobil(){
+      FILE *ptr;
+    ptr = fopen("mobil.txt", "r");
+    if (ptr == NULL) {
+        printf("File tidak ditemukan.\n");
+        return;
+    }
+    system("cls");
+    printf("========================= Data Produk ========================\n\n");
+    printf("------------------------------------------------------------------------------\n");
+    printf("Kode   Produk          Harga/Hari      Harga/Jam        Kategori    \n"); 
+    printf("------------------------------------------------------------------------------\n");
+
+    while (fscanf(ptr, "Kode: %s\tNama: %[^\t]\tPlat: %[^\t] \tKategori: %[^\t]\tPerjam: %d\tPerhari: %d\n",
+        car.kode, car.nama, car.plat, car.kategori, &car.harga_perjam, &car.harga_perhari) != EOF) {
+        printf("%-6s %-15s %-15d %-8d %-15s\n",
+        car.kode, car.nama, car.harga_perhari, car.harga_perjam, car.kategori);
+    }
+
+    printf("---------------------------------------------------------------\n");
+    fclose(ptr);
+    printf("Tekan enter untuk kembali");
+    getchar(); 
+    getchar();
+    menu_laporan();
+
+}
+void L_pesanan_menu(){
+     int pilihan;
+    system("cls");
+    printf("============================================================\n");
+    printf("\t\t\tLaporan Peminjaman\n");
+    printf("============================================================\n\n");
+
+    printf("Pilih Mobil:\n");
+    printf("1. Peminjaman Harian\n");
+    printf("2. Peminjaman  Perjam\n");
+     printf("3. Seluruh Peminjaman\n");
+    printf("4. Keluar\n");
+    printf("Input Pilihan Menu: ");
+    scanf("%d",&pilihan);
+ if (pilihan == 1){
+       
+    }else if (pilihan == 2){
+        
+    }else if (pilihan == 3){
+        menu_laporan();
+    }
+}
+void L_transaksi(){
+     int pilihan;
+    system("cls");
+    printf("============================================================\n");
+    printf("\t\t\tLaporan Transaksi\n");
+    printf("============================================================\n\n");
+
+    printf("Pilih Mobil:\n");
+    printf("1. Transaksi Peminjaman Harian\n");
+    printf("2. Transaksi Peminjaman  Perjam\n");
+    printf("3. Seluruh Transaksi Peminjaman\n");
+    printf("4. Keluar\n");
+    printf("Input Pilihan Menu: ");
+    scanf("%d",&pilihan);
+ if (pilihan == 1){
+       
+    }else if (pilihan == 2){
+        
+    }else if (pilihan == 3){
+       
+    }else if (pilihan == 4){
+        menu_laporan();
+    }
 }
