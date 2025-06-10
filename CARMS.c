@@ -3,6 +3,7 @@
 #include <string.h>
 #include <windows.h>     
 #include <conio.h>   
+#include <ctype.h>
 
 // tipe data bentukan 
 typedef struct{
@@ -71,6 +72,10 @@ void L_pesanan_menu();
 void L_transaksi();
 void data_transaksi();
 
+//laporan transaksi
+void L_transaksi_harian();
+void L_transaksi_perjam();
+void L_transaksi_seluruh();
 
 // bubble sort
 void bubbleSort(mobil car[], int n);
@@ -485,7 +490,7 @@ void menu_pelanggan(){
 }
 
 void mobil_keluarga(){
-    int pilihan,pilih;
+    int pilihan,pilih;	
     FILE *ptr;
 	ptr = fopen("mobil.txt","r");
 
@@ -575,9 +580,24 @@ void mobil_keluarga(){
     printf("Masukkan Nama Mobil yang ingin Dicari: ");
     scanf(" %[^\n]", nama);  
 
+    //mengubah nama input ke huruf kecil
+    for (int i = 0; nama[i]; i++) {
+    nama[i] = tolower(nama[i]);
+    }
+
     while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
-        if (strcmp(cek.nama, nama) == 0 && strcmp(cek.kategori, "Mobil Keluarga") == 0) {
+
+        if (strcmp(cek.kategori, "Mobil Keluarga") == 0) {
+	char temp[50];
+        strcpy(temp, cek.nama);
+
+        //mengubah nama dari file ke huruf kecil
+        for (int i = 0; temp[i]; i++) {
+            temp[i] = tolower(temp[i]);
+        }
+
+        if (strncmp(temp, nama, strlen(nama)) == 0) {
             nama_sama = 1;
             printf("\nData Mobil Ditemukan:\n");
             printf("Kode       : %s\n", cek.kode);
@@ -587,7 +607,8 @@ void mobil_keluarga(){
             printf("Harga/jam  : %d\n", cek.harga_perjam);
             printf("Harga/hari : %d\n", cek.harga_perhari);
             break;
-        }
+            }
+        }  
     }
 
     if (!nama_sama) {
@@ -702,18 +723,35 @@ void minibus(){
     printf("Masukkan Nama Mobil yang ingin Dicari: ");
     scanf(" %[^\n]", nama);  
 
+    //mengubah nama input ke huruf kecil
+    for (int i = 0; nama[i]; i++) {
+    nama[i] = tolower(nama[i]);
+    }
+
     while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\n",
          cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari) == 6) {
-        if (strcmp(cek.nama, nama) == 0 && strcmp(cek.kategori, "Minibus") == 0) {
+
+        if (strcmp(cek.kategori, "Minibus") == 0) {
+	char temp[50];
+        strcpy(temp, cek.nama);
+
+        //mengubah nama dari file ke huruf kecil
+        for (int i = 0; temp[i]; i++) {
+            temp[i] = tolower(temp[i]);
+        }
+
+        if (strncmp(temp, nama, strlen(nama)) == 0) {
             nama_sama = 1;
             printf("\nData Mobil Ditemukan:\n");
             printf("Kode       : %s\n", cek.kode);
             printf("Nama       : %s\n", cek.nama);
             printf("Plat       : %s\n", cek.plat);
             printf("Kategori   : %s\n", cek.kategori);
+            printf("Harga/jam  : %d\n", cek.harga_perjam);
             printf("Harga/hari : %d\n", cek.harga_perhari);
             break;
-        }
+            }
+        }  
     }
 
     if (!nama_sama) {
@@ -1072,15 +1110,134 @@ void L_transaksi(){
     printf("Input Pilihan Menu: ");
     scanf("%d",&pilihan);
  if (pilihan == 1){
-       
+        L_transaksi_harian();
     }else if (pilihan == 2){
-        
+         L_transaksi_perjam();
     }else if (pilihan == 3){
-       
+        L_transaksi_seluruh();
     }else if (pilihan == 4){
         menu_laporan();
     }
 }
+
+void L_transaksi_harian() {
+    pesenan p;
+    FILE *f_transaksi;
+    char nama_mobil[50], plat_mobil[20];
+    int ada_data = 0;
+
+    f_transaksi = fopen("Transaksi.txt", "r");
+    if (f_transaksi == NULL) {
+        printf("File Transaksi.txt tidak ditemukan.\n");
+        return;
+    }
+
+    system("cls");
+    printf("========================= Laporan Transaksi Harian =========================\n\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Tgl Pergi   Tgl Kembali   Total\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+
+    while (fscanf(f_transaksi, "%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%d\n",
+                  p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+                  p.tanggal_pergi, p.tanggal_kembali, &p.total_transaksi) == 7) {
+        if (strstr(p.kategori_pesanan, "Harian") != NULL) {
+            ada_data = 1;
+            printf("%-10s %-12s %-15s %-12s %-12s %-13s %-10d\n",
+                   p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+                   p.tanggal_pergi, p.tanggal_kembali, p.total_transaksi);
+        }
+    }
+
+    if (!ada_data) {
+        printf("%-10s %-12s %-15s %-12s %-12s %-13s %-10s\n", "-", "-", "-", "-", "-", "-", "-");
+    }
+
+    printf("----------------------------------------------------------------------------------------------------\n");
+    fclose(f_transaksi);
+    printf("Tekan enter untuk kembali...");
+    getch();
+    L_transaksi();
+}
+
+void L_transaksi_perjam() {
+    pesenan p;
+    FILE *f_transaksi;
+    char nama_mobil[50], plat_mobil[20];
+    int ada_data = 0;
+
+    f_transaksi = fopen("Transaksi.txt", "r");
+    if (f_transaksi == NULL) {
+        printf("File Transaksi.txt tidak ditemukan.\n");
+        return;
+    }
+
+    system("cls");
+    printf("========================= Laporan Transaksi Perjam =========================\n\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Jam Pergi   Jam Kembali   Total\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+
+    while (fscanf(f_transaksi, "%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%d\n",
+                  p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+                  p.tanggal_pergi, p.tanggal_kembali, &p.total_transaksi) == 7) {
+        if (strstr(p.kategori_pesanan, "Perjam") != NULL) {
+            ada_data = 1;
+            printf("%-10s %-12s %-15s %-12s %-12s %-13s %-10d\n",
+                   p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+                   p.tanggal_pergi, p.tanggal_kembali, p.total_transaksi);
+        }
+    }
+
+    if (!ada_data) {
+        printf("%-10s %-12s %-15s %-12s %-12s %-13s %-10s\n", "-", "-", "-", "-", "-", "-", "-");
+    }
+
+    printf("----------------------------------------------------------------------------------------------------\n");
+    fclose(f_transaksi);
+    printf("Tekan enter untuk kembali...");
+    getch();
+    L_transaksi();
+}
+
+void L_transaksi_seluruh() {
+    pesenan p;
+    FILE *f_transaksi;
+    char nama_mobil[50], plat_mobil[20];
+    int ada_data = 0;
+
+    f_transaksi = fopen("Transaksi.txt", "r");
+    if (f_transaksi == NULL) {
+        printf("File Transaksi.txt tidak ditemukan.\n");
+        return;
+    }
+
+    system("cls");
+    printf("========================= Seluruh Transaksi Peminjaman =========================\n\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Tgl/Jam Pergi   Tgl/Jam Kembali   Total\n");
+    printf("----------------------------------------------------------------------------------------------------\n");
+
+    while (fscanf(f_transaksi, "%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%[^\t]\t%d\n",
+                  p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+                  p.tanggal_pergi, p.tanggal_kembali, &p.total_transaksi) == 7) {
+        ada_data = 1;
+        printf("%-10s %-12s %-15s %-12s %-15s %-15s %-10d\n",
+               p.kategori_pesanan, p.kode_mobil, nama_mobil, plat_mobil,
+               p.tanggal_pergi, p.tanggal_kembali, p.total_transaksi);
+    }
+
+    if (!ada_data) {
+        printf("%-10s %-12s %-15s %-12s %-15s %-15s %-10s\n", "-", "-", "-", "-", "-", "-", "-");
+    }
+
+    printf("----------------------------------------------------------------------------------------------------\n");
+    fclose(f_transaksi);
+    printf("Tekan enter untuk kembali...");
+    getch();
+    L_transaksi();
+}
+
 int getMonthFromDate(const char *date) {
     char monthStr[3];
     strncpy(monthStr, date + 3, 2);
