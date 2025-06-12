@@ -33,6 +33,7 @@ char jam_kembali[20];
 char kategori_pesanan[20];
 int total_transaksi;
 char nama_pelanggan[100]; 
+
 }pesenan;
 
 typedef struct{
@@ -63,6 +64,7 @@ void edit();
 void mobil_keluarga();
 void minibus();
 void booking();
+void ubah_status(char kode[20]);
 
 //laporan
 void laporan();
@@ -819,11 +821,6 @@ void booking(){
         printf("Gagal membuka file.\n");
         return;
     }
-    FILE *MN = fopen("Mobil_new.txt", "w+");
-    if (MN == NULL) { 
-        printf("Gagal membuka file.\n");
-        return;
-    }
 
      printf("Masukkan Nama: ");
      scanf(" %[^\n]", p.nama);
@@ -852,6 +849,8 @@ void booking(){
          car.kode, car.nama, car.plat, car.kategori, &car.harga_perjam, &car.harga_perhari) != EOF) {
     if (strcmp(car.kode, p.kode_mobil) == 0) {
         found = 1;
+        ubah_status(p.kode_mobil);
+
         break;
     }
 }
@@ -937,11 +936,6 @@ void booking(){
     printf("Total Biaya     : Rp%d\n", pembayaran); 
     printf("============================================================\n");
   
-
-fclose(mobil);
-remove("mobil.txt");
-rename("temp.txt", "mobil.txt");
-
     fclose(ptr);
     fclose(sewa);
     printf("\nTekan enter untuk kembali...");
@@ -949,6 +943,47 @@ rename("temp.txt", "mobil.txt");
     getchar();
     menu_pelanggan();
 }
+void ubah_status(char kode_mobil[20]){
+    FILE *fold, *fnew;
+    mobil car;
+    fold = fopen("mobil.txt", "r");
+    fnew = fopen("mobil_new.txt", "w+");
+
+    if (!fold || !fnew) {
+        printf("Gagal membuka file!\n");
+        return;
+    }
+
+    int ketemu = 0;
+    while (fscanf(fold, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%[^\n]\n",
+        car.kode, car.nama, car.plat, car.kategori,
+        &car.harga_perjam, &car.harga_perhari, car.status) == 7) {
+
+        if (strcmp(kode_mobil, car.kode) == 0) {
+            strcpy(car.status, "Disewa");
+            ketemu = 1;
+        }
+
+        fprintf(fnew, "%s\t%s\t%s\t%s\t%d\t%d\t%s\n",
+            car.kode, car.nama, car.plat, car.kategori,
+            car.harga_perjam, car.harga_perhari, car.status);
+    }
+
+    fclose(fold);
+    fclose(fold);
+    fclose(fnew);
+    fclose(fnew);
+
+    if (ketemu) {
+        remove("mobil.txt");
+        rename("mobil_new.txt", "mobil.txt");
+        
+    } else {
+        remove("mobil_new.txt");
+        
+    }
+}
+
 void laporan(){
 
 }
