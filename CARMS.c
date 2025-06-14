@@ -88,52 +88,52 @@ void bubbleSort(mobil car[], int n);
 #define MAX_MOBIL 100
 
 int main() {
-    int pilih;
-    char inuser[20];
-    char inpass[20];
-    akun akun_admin = {"admin123", "123admin"}; // username: admin123, password: 123
+     int pilih;
+     char inuser[20];
+     char inpass[20];
+     akun akun_admin = {"admin123", "123admin"};  //username: admin123, password: 123
 
-    do {
-        system("cls");
-        printf("==============================================================\n");
-        printf("\t\t  SELAMAT DATANG DI CARMS\n");
-        printf("==============================================================\n\n");
+     do {
+         system("cls");
+         printf("==============================================================\n");
+         printf("\t\t  SELAMAT DATANG DI CARMS\n");
+         printf("==============================================================\n\n");
 
-        printf("Masuk sebagai:\n");
-        printf("1. Admin\n");
-        printf("2. Pelanggan\n\n");
+         printf("Masuk sebagai:\n");
+         printf("1. Admin\n");
+         printf("2. Pelanggan\n\n");
 
-        printf("Input pilihan Menu: ");
-        scanf("%d",&pilih);
+         printf("Input pilihan Menu: ");
+         scanf("%d",&pilih);
 
 
-        switch (pilih) {
-            case 1:
-                printf("Masukkan username: ");
-                scanf("%s", inuser);
-                printf("Masukkan password: ");
-                scanf("%s", inpass);
+         switch (pilih) {
+             case 1:
+                 printf("Masukkan username: ");
+                 scanf("%s", inuser);
+                 printf("Masukkan password: ");
+                 scanf("%s", inpass);
 
-                if (login(akun_admin, inuser, inpass)) {
-                    printf("Login berhasil. Selamat datang, %s!\n", inuser);
-                    menu_admin();
-                } else {
-                    printf("Login gagal. Username atau password salah.\n");
-                }
-                break;
-            case 2:
-                 persetujuan();
-                break;
+                 if (login(akun_admin, inuser, inpass)) {
+                     printf("Login berhasil. Selamat datang, %s!\n", inuser);
+                     menu_admin();
+                 } else {
+                     printf("Login gagal. Username atau password salah.\n");
+                 }
+                 break;
+             case 2:
+                  persetujuan();
+                 break;
 
-            case 3:
-                printf("Terima kasih telah menggunakan program.\n");
-                break;
+             case 3:
+                 printf("Terima kasih telah menggunakan program.\n");
+                 break;
 
-            default:
-                printf("Pilihan tidak valid.\n");
-                break;
-        }
-    } while (pilih != 3);
+             default:
+                 printf("Pilihan tidak valid.\n");
+                 break;
+         }
+     } while (pilih != 3);
 
     return 0;
 }
@@ -325,19 +325,19 @@ void hapus() {
 
     system("cls");
 
-    printf("=================================== Data Mobil ==================================\n\n");
-    printf("---------------------------------------------------------------------------------\n");
-    printf("%-8s %-18s %-18s %-18s %-15s %-18s\n",
-        "Kode", "Nama Mobil", "Harga Perjam", "Harga Perhari", "Kategori","Status"); 
-    printf("----------------------------------------------------------------------------------\n");
+        printf("========================================== Data Mobil =======================================\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-13s | %-13s | %-12s | %-10s |\n",
+            "Kode", "Nama Mobil", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+        printf("-----------------------------------------------------------------------------------------------\n");
 
-    while (fscanf(fold, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%[^\n]\n",
-                 cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-        printf("%-8s %-18s %-18d %-18d %-15s %-18s\n",
-            cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
-    }
+        while (fscanf(fold, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
+            printf("| %-8s | %-20s | Rp%-10d | Rp%-10d | %-12s | %-10s |\n",
+                cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
+        }
 
-    printf("---------------------------------------------------------------------------------\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n\n");
     
     printf("Masukkan Kode Mobil yang ingin dihapus: ");
     scanf("%s", kodetohapus);
@@ -373,17 +373,19 @@ void hapus() {
     system("cls");
     FILE *ptr = fopen("mobil.txt", "r");
     if (ptr != NULL) {
-        printf("\n=================================== Data Mobil Terbaru ==================================\n\n");
-        printf("---------------------------------------------------------------------------------\n");
-        printf("%-8s %-18s %-18s %-18s %-15s %-18s\n",
-            "Kode", "Nama Mobil", "Harga Perjam", "Harga Perhari", "Kategori","Status"); 
-        printf("----------------------------------------------------------------------------------\n");
-        while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%[^\n]\n",
+        printf("========================================== Data Mobil =======================================\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-13s | %-13s | %-12s | %-10s |\n",
+            "Kode", "Nama Mobil", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+        printf("-----------------------------------------------------------------------------------------------\n");
+
+        while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
                     cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-            printf("%-8s %-18s %-18d %-18d %-15s %-18s\n",
+            printf("| %-8s | %-20s | Rp%-10d | Rp%-10d | %-12s | %-10s |\n",
                 cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
         }
-        printf("---------------------------------------------------------------------------------\n");
+
+        printf("-----------------------------------------------------------------------------------------------\n\n");
         fclose(ptr);
     } else {
         printf("Gagal membuka file mobil.txt untuk menampilkan data terbaru.\n");
@@ -404,21 +406,21 @@ void lihat() {
         printf("File tidak ditemukan.\n");
         return;
     }
+        system("cls");
+        printf("========================================== Data Mobil =======================================\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-13s | %-13s | %-12s | %-10s |\n",
+            "Kode", "Nama Mobil", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+        printf("-----------------------------------------------------------------------------------------------\n");
 
-    system("cls");
-    printf("=================================== Data Mobil ==================================\n\n");
-    printf("---------------------------------------------------------------------------------\n");
-    printf("%-8s %-18s %-18s %-18s %-15s %-18s\n",
-        "Kode", "Nama Mobil", "Harga Perjam", "Harga Perhari", "Kategori","Status"); 
-    printf("----------------------------------------------------------------------------------\n");
+        while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
+            printf("| %-8s | %-20s | Rp%-10d | Rp%-10d | %-12s | %-10s |\n",
+                cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
+        }
 
-    while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
-                 cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-        printf("%-8s %-18s %-18d %-18d %-15s %-18s\n",
-        cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
-    }
+        printf("-----------------------------------------------------------------------------------------------\n\n");
 
-    printf("---------------------------------------------------------------------------------\n\n");
 
     getchar();
     printf("Masukkan Kode Mobil yang ingin Dicari (Enter untuk skip): ");
@@ -468,20 +470,20 @@ void edit() {
         printf("Gagal membuka file!\n");
         return;
     }
-    system("cls");
-    printf("=================================== Data Mobil ==================================\n\n");
-    printf("---------------------------------------------------------------------------------\n");
-    printf("%-8s %-18s %-18s %-18s %-15s %-18s\n",
-        "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori", "Status");
-    printf("----------------------------------------------------------------------------------\n");
+            system("cls");
+        printf("========================================== Data Mobil =======================================\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-13s | %-13s | %-12s | %-10s |\n",
+            "Kode", "Nama Mobil", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+        printf("-----------------------------------------------------------------------------------------------\n");
 
-    while (fscanf(fold, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%[^\n]\n",
-        cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-        printf("%-8s %-18s %-18s %-18d %-15d %-18s %-18s\n",
-            cek.kode, cek.nama, cek.plat, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
-    }
+        while (fscanf(fold, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
+            printf("| %-8s | %-20s | Rp%-10d | Rp%-10d | %-12s | %-10s |\n",
+                cek.kode, cek.nama, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
+        }
 
-    printf("---------------------------------------------------------------------------------\n\n");
+        printf("-----------------------------------------------------------------------------------------------\n\n");
 
     printf("Masukkan Kode Mobil yang ingin diedit: ");
     scanf("%s", kodetoedit);
@@ -604,16 +606,17 @@ void mobil_keluarga() {
     ptr = fopen("mobil.txt","r");
 
     system("cls");
-    printf("============================================================\n");
+    printf("===================================================================================\n");
     printf("\t\tPILIHAN MOBIL KELUARGA\n");
-    printf("============================================================\n\n");
-    printf("Kode   Produk          Harga/Hari      Harga/Jam          Kategori    \n"); 
-    printf("------------------------------------------------------------------------------\n");
+    printf("===================================================================================\n\n");
+    printf("%-8s %-18s %-18s %-18s %-18s %-15s %-18s\n",
+        "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori","Status"); 
+    printf("----------------------------------------------------------------------------------\n");
 
-    while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%[^\n]\n",
+    while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
         cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
         if (strcmp(cek.kategori, "Mobil Keluarga") == 0 && strcmp(cek.status, "Tersedia") == 0) {
-            printf("%-6s %-15s %-15d %-15d %-15s\n",
+            printf("%-8s %-18s %-18s %-18s %-18s %-15d %-18s\n",
                 cek.kode, cek.nama, cek.harga_perhari, cek.harga_perjam, cek.kategori);
         }
     }
@@ -655,15 +658,16 @@ void mobil_keluarga() {
             bubbleSort(car, count);
 
             system("cls");
-            printf("============================================================\n");
+            printf("====================================================================================\n");
             printf("\t\tPILIHAN MOBIL KELUARGA (Termurah)\n");
-            printf("============================================================\n\n");
-            printf("Kode   Produk          Harga/Hari      Harga/Jam       Kategori    \n"); 
-            printf("---------------------------------------------------------------\n");
+            printf("====================================================================================\n\n");
+            printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
+                     "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
+            printf("----------------------------------------------------------------------------------\n");
 
             for (int i = 0; i < count; i++) {
-                printf("%-6s %-15s %-15d %-15d %-15s\n",  
-                    car[i].kode, car[i].nama, car[i].harga_perhari, car[i].harga_perjam, car[i].kategori);
+                printf("%-8s %-18s %-18s %-18s %-18s %-15d\n",  
+                    car[i].kode, car[i].nama, car[i].plat, car[i].harga_perhari, car[i].harga_perjam, car[i].kategori);
             }
 
             printf("---------------------------------------------------------------\n");
@@ -740,17 +744,18 @@ void minibus(){
     ptr = fopen("mobil.txt","r");
 
     system("cls");
-    printf("============================================================\n");
+    printf("==================================================================================\n");
     printf("\t\t\tPILIHAN MINIBUS\n");
-    printf("============================================================\n\n");
-    printf("Kode     Nama Mobil       Harga/Hari        Kategori    \n"); 
-    printf("---------------------------------------------------------------\n");
+    printf("==================================================================================\n\n");
+    printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
+            "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
+    printf("----------------------------------------------------------------------------------\n");
 
     while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
         cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
         if (strcmp(cek.kategori, "Minibus") == 0 && strcmp(cek.status, "Tersedia") == 0){
-            printf("%-6s %-15s %-15d %-15s\n",
-                cek.kode, cek.nama, cek.harga_perhari, cek.kategori);
+            printf("%-8s %-18s %-18s %-15d %-18s\n",
+                cek.kode, cek.nama, cek.plat, cek.harga_perhari, cek.kategori);
         }
     }
     fclose(ptr);
@@ -793,12 +798,13 @@ void minibus(){
             printf("============================================================\n");
             printf("\t\t\tPILIHAN MINIBUS\n");
             printf("============================================================\n\n");
-            printf("Kode   Produk        Harga/Hari          Kategori    \n"); 
-            printf("---------------------------------------------------------------\n");
+            printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
+            "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
+            printf("----------------------------------------------------------------------------------\n");
 
             for (int i = 0; i < count; i++) {
-                printf("%-6s %-15s %-15d %-15s\n",  
-                    car[i].kode, car[i].nama, car[i].harga_perhari, car[i].kategori);
+                printf("%-8s %-18s %-18s %-18d %-15s\n",  
+                    car[i].kode, car[i].nama, car[i].plat, car[i].harga_perhari, car[i].kategori);
             }
 
             printf("---------------------------------------------------------------\n");
@@ -1186,9 +1192,10 @@ void data_pelanggan() {
     fclose(f_mobil);
 
     system("cls");
-    printf("========================= Data Pelanggan ========================\n\n");
+    printf("========================================== Data Pelanggan ========================================\n\n");
     printf("----------------------------------------------------------------------------------------------------\n");
-    printf("Nama           HP             NIK             Alamat                    Mobil yang Disewa      Plat\n");
+    printf("%-20s %-20s %-20s %-20s %-20s %-20s\n",
+            "Nama", "Nomor HP", "NIK", "Alamat", "Mobil yang disewa", "Plat"); 
     printf("----------------------------------------------------------------------------------------------------\n");
 
     while (fscanf(f_pelanggan, "%[^\t]\t%lld\t%lld\t%[^\t]\t%[^\n]\n", 
@@ -1207,7 +1214,7 @@ void data_pelanggan() {
             strcpy(nama_mobil, "-");
         }
 
-        printf("%-15s %-15lld %-15lld %-25s %-20s %-10s\n", 
+        printf("%-20s %-20lld %-20lld %-25s %-20s %-20s\n", 
          p.nama, p.hp, p.nik, p.alamat, nama_mobil, plat_mobil);
     }   
       printf("----------------------------------------------------------------------------------------------------\n");
@@ -1343,10 +1350,11 @@ void L_transaksi_harian() {
     char line[256];
 
     system("cls");
-    printf("========================= Laporan Transaksi Harian =========================\n\n");
+    printf("======================================= Laporan Transaksi Harian ==================================\n\n");
     printf("----------------------------------------------------------------------------------------------------\n");
-    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Tgl Pergi   Tgl Kembali   Total      Status\n");
-    printf("----------------------------------------------------------------------------------------------------\n");
+    printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15s\n",
+            "Penyewa","Kode Mobil", "Nama Mobil", "Plat", "Tanggal Pergi", "Tanggal Kembali", "Jumlah Transaksi", "Status"); 
+    printf("-----------------------------------------------------------------------------------------------------\n");
 
     f_transaksi = fopen("Transaksi.txt", "r");
     if (f_transaksi != NULL) {
@@ -1401,8 +1409,9 @@ void L_transaksi_perjam() {
     system("cls");
     printf("========================= Laporan Transaksi Perjam =========================\n\n");
     printf("---------------------------------------------------------------------------------------------------------------\n");
-    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Tgl Pinjam   Jam Pergi   Jam Kembali   Total      Status\n");
-    printf("---------------------------------------------------------------------------------------------------------------\n");
+    printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15s %-18s\n",
+            "Penyewa","Kode Mobil", "Nama Mobil", "Plat", "Tanggal Pinjam", "Jam Pergi", "Jam Kembali", "Jumlah Transaksi", "Status"); 
+    printf("----------------------------------------------------------------------------------------------------------------\n");
 
     f_transaksi = fopen("Transaksi.txt", "r");
     if (f_transaksi != NULL) {
@@ -1412,8 +1421,8 @@ void L_transaksi_perjam() {
                              p.tanggal_pergi, p.jam_pergi, p.jam_kembali, &p.total_transaksi, status);
             if (baris == 10 && strstr(p.kategori_pesanan, "Perjam") != NULL) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-11s %-12s %-10d %-10s\n",
-                       p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15d %-18s\n",
+                       p.nama_pelanggan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, p.jam_pergi, p.jam_kembali, p.total_transaksi, status);
             }
         }
@@ -1428,8 +1437,8 @@ void L_transaksi_perjam() {
                              p.tanggal_pergi, p.jam_pergi, p.jam_kembali, &p.total_transaksi, status);
             if (baris == 10 && strstr(p.kategori_pesanan, "Perjam") != NULL && strcmp(status, "Selesai") == 0) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-11s %-12s %-10d %-10s\n",
-                       p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
+                 printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15d %-18s\n",
+                       p.nama_pelanggan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, p.jam_pergi, p.jam_kembali, p.total_transaksi, status);
             }
         }
@@ -1437,7 +1446,7 @@ void L_transaksi_perjam() {
     }
 
     if (!ada_data) {
-        printf("%-10s %-12s %-15s %-12s %-12s %-11s %-12s %-10s %-10s\n", "-", "-", "-", "-", "-", "-", "-", "-", "-");
+        printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15d %-18s\n", "-", "-", "-", "-", "-", "-", "-", "-", "-");
     }
 
     printf("---------------------------------------------------------------------------------------------------------------\n");
@@ -1457,9 +1466,9 @@ void L_transaksi_seluruh() {
     system("cls");
     printf("========================= Seluruh Transaksi Peminjaman =========================\n\n");
     printf("--------------------------------------------------------------------------------------------------------------------------\n");
-    printf("Kategori   Kode Mobil   Nama Mobil        Plat         Tgl Pergi     Jam Pergi   Jam Kembali   Tgl Kembali   Total     Status\n");
+    printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-15s %-18s\n",
+            "Kategori","Kode Mobil", "Nama Mobil", "Plat", "Tanggal Pinjam", "Jam Pergi", "Jam Kembali", "Jumlah Transaksi", "Status"); 
     printf("--------------------------------------------------------------------------------------------------------------------------\n");
-
     f_transaksi = fopen("Transaksi.txt", "r");
     if (f_transaksi != NULL) {
         while (fgets(line, sizeof(line), f_transaksi)) {
@@ -1468,7 +1477,7 @@ void L_transaksi_seluruh() {
                              p.tanggal_pergi, p.jam_pergi, p.jam_kembali, &p.total_transaksi, status);
             if (baris == 10 && strstr(p.kategori_pesanan, "Perjam") != NULL) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-10s %-12s %-13s %-10d %-10s\n",
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18d %-18s\n",
                        p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, p.jam_pergi, p.jam_kembali, "-", p.total_transaksi, status);
                 continue;
@@ -1478,7 +1487,7 @@ void L_transaksi_seluruh() {
                          p.tanggal_pergi, p.tanggal_kembali, &p.total_transaksi, status);
             if (baris == 9 && strstr(p.kategori_pesanan, "Harian") != NULL) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-10s %-12s %-13s %-10d %-10s\n",
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18d %-18s\n",
                        p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, "-", "-", p.tanggal_kembali, p.total_transaksi, status);
             }
@@ -1494,7 +1503,7 @@ void L_transaksi_seluruh() {
                              p.tanggal_pergi, p.jam_pergi, p.jam_kembali, &p.total_transaksi, status);
             if (baris == 10 && strstr(p.kategori_pesanan, "Perjam") != NULL && strcmp(status, "Selesai") == 0) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-10s %-12s %-13s %-10d %-10s\n",
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18d %-18s\n",
                        p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, p.jam_pergi, p.jam_kembali, "-", p.total_transaksi, status);
                 continue;
@@ -1504,7 +1513,7 @@ void L_transaksi_seluruh() {
                          p.tanggal_pergi, p.tanggal_kembali, &p.total_transaksi, status);
             if (baris == 9 && strstr(p.kategori_pesanan, "Harian") != NULL && strcmp(status, "Selesai") == 0) {
                 ada_data = 1;
-                printf("%-10s %-12s %-15s %-12s %-12s %-10s %-12s %-13s %-10d %-10s\n",
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18d %-18s\n",
                        p.kategori_pesanan, p.kode_mobil, cek.nama, cek.plat,
                        p.tanggal_pergi, "-", "-", p.tanggal_kembali, p.total_transaksi, status);
             }
@@ -1513,7 +1522,7 @@ void L_transaksi_seluruh() {
     }
 
     if (!ada_data) {
-        printf("%-10s %-12s %-15s %-12s %-10s %-13s %-13s %-10s %-10s\n", "-", "-", "-", "-", "-", "-", "-", "-", "-");
+        printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18s %-18d %-18s\n", "-", "-", "-", "-", "-", "-", "-", "-", "-");
     }
 
     printf("--------------------------------------------------------------------------------------------------------------------------\n");
@@ -1884,7 +1893,7 @@ void L_peminjaman() {
                     }
                     fclose(f_pelanggan);
                 }
-                printf("%-10s %-16s %-12s %-15s %-11s %-13s %-10d\n",
+                printf("%-18s %-18s %-18s %-18s %-18s %-18s %-18d\n\n",
                     p.kategori_pesanan, nama_pelanggan, p.kode_mobil, car.nama,
                     p.tanggal_pergi, p.jam_kembali, p.total_transaksi);
                 total_pendapatan += p.total_transaksi;
