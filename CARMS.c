@@ -606,20 +606,21 @@ void mobil_keluarga() {
     ptr = fopen("mobil.txt","r");
 
     system("cls");
-    printf("===================================================================================\n");
-    printf("\t\tPILIHAN MOBIL KELUARGA\n");
-    printf("===================================================================================\n\n");
-    printf("%-8s %-18s %-18s %-18s %-18s %-15s %-18s\n",
-        "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori","Status"); 
-    printf("----------------------------------------------------------------------------------\n");
+            system("cls");
+        printf("================================================== Data Mobil =================================================\n\n");
 
-    while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
-        cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-        if (strcmp(cek.kategori, "Mobil Keluarga") == 0 && strcmp(cek.status, "Tersedia") == 0) {
-            printf("%-8s %-18s %-18s %-18s %-18s %-15d %-18s\n",
-                cek.kode, cek.nama, cek.harga_perhari, cek.harga_perjam, cek.kategori);
+        printf("---------------------------------------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-10s | %-12s  | %-12s  | %-15s | %-10s |\n",
+            "Kode", "Nama Mobil", "Plat", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+        printf("---------------------------------------------------------------------------------------------------------------\n");
+
+        while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
+            printf("| %-8s | %-20s | %-10s | Rp%-11d | Rp%-11d | %-15s | %-10s |\n",
+                cek.kode, cek.nama, cek.plat, cek.harga_perjam, cek.harga_perhari, cek.kategori, cek.status);
         }
-    }
+
+       printf("---------------------------------------------------------------------------------------------------------------\n\n");
     fclose(ptr);
 
     printf("\nPilih:\n");
@@ -658,19 +659,18 @@ void mobil_keluarga() {
             bubbleSort(car, count);
 
             system("cls");
-            printf("====================================================================================\n");
-            printf("\t\tPILIHAN MOBIL KELUARGA (Termurah)\n");
-            printf("====================================================================================\n\n");
-            printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
-                     "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
-            printf("----------------------------------------------------------------------------------\n");
+             printf("================================================== Data Mobil =================================================\n\n");
+            printf("---------------------------------------------------------------------------------------------------------------\n");
+            printf("| %-8s | %-20s | %-10s | %-12s  | %-12s  | %-15s | %-10s |\n",
+            "Kode", "Nama Mobil", "Plat", "Harga/Jam", "Harga/Hari", "Kategori", "Status");
+            printf("---------------------------------------------------------------------------------------------------------------\n");
 
             for (int i = 0; i < count; i++) {
-                printf("%-8s %-18s %-18s %-18s %-18s %-15d\n",  
+                printf("| %-8s | %-20s | %-10s | Rp%-11d | Rp%-11d | %-15s | %-10s |\n",  
                     car[i].kode, car[i].nama, car[i].plat, car[i].harga_perhari, car[i].harga_perjam, car[i].kategori);
             }
 
-            printf("---------------------------------------------------------------\n");
+            printf("---------------------------------------------------------------------------------------------------------------\n");
             printf("Tekan enter untuk kembali");
             getchar();
             getchar();
@@ -743,22 +743,26 @@ void minibus(){
     FILE *ptr;
     ptr = fopen("mobil.txt","r");
 
-    system("cls");
-    printf("==================================================================================\n");
-    printf("\t\t\tPILIHAN MINIBUS\n");
-    printf("==================================================================================\n\n");
-    printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
-            "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
-    printf("----------------------------------------------------------------------------------\n");
+  system("cls");
+        printf("====================================== PILIHAN MINIBUS ======================================\n\n");
 
-    while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
-        cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
-        if (strcmp(cek.kategori, "Minibus") == 0 && strcmp(cek.status, "Tersedia") == 0){
-            printf("%-8s %-18s %-18s %-15d %-18s\n",
-                cek.kode, cek.nama, cek.plat, cek.harga_perhari, cek.kategori);
+        printf("--------------------------------------------------------------------------------\n");
+        printf("| %-8s | %-20s | %-10s | %-11s | %-15s |\n",
+            "Kode", "Nama Mobil", "Plat", "Harga/Hari", "Kategori");
+        printf("--------------------------------------------------------------------------------\n");
+
+        while (fscanf(ptr, "%s\t%[^\t]\t%[^\t]\t%[^\t]\t%d\t%d\t%s\n",
+                    cek.kode, cek.nama, cek.plat, cek.kategori, &cek.harga_perjam, &cek.harga_perhari, cek.status) == 7) {
+            if (strcmp(cek.kategori, "Minibus") == 0 && strcmp(cek.status, "Tersedia") == 0){
+                printf("| %-8s | %-20s | %-10s | Rp%-8d  | %-15s |\n",
+                    cek.kode, cek.nama, cek.plat, cek.harga_perhari, cek.kategori);
+            }
         }
-    }
+
+        printf("--------------------------------------------------------------------------------\n");
+
     fclose(ptr);
+
 
     printf("\nPilih:\n");
     printf("1. Cari Mobil\n");
@@ -795,19 +799,20 @@ void minibus(){
             bubbleSort(car, count);
 
             system("cls");
-            printf("============================================================\n");
-            printf("\t\t\tPILIHAN MINIBUS\n");
-            printf("============================================================\n\n");
-            printf("%-8s %-18s %-18s %-18s %-18s %-15s\n",
-            "Kode", "Nama Mobil", "Plat", "Harga Perjam", "Harga Perhari", "Kategori"); 
-            printf("----------------------------------------------------------------------------------\n");
+            printf("====================================== PILIHAN MINIBUS ======================================\n\n");
+
+            printf("--------------------------------------------------------------------------------\n");
+            printf("| %-8s | %-20s | %-10s | %-11s | %-15s |\n",
+                "Kode", "Nama Mobil", "Plat", "Harga/Hari", "Kategori");
+            printf("--------------------------------------------------------------------------------\n");
 
             for (int i = 0; i < count; i++) {
-                printf("%-8s %-18s %-18s %-18d %-15s\n",  
+                printf("| %-8s | %-20s | %-10s | %-11d | %-15s |\n",  
                     car[i].kode, car[i].nama, car[i].plat, car[i].harga_perhari, car[i].kategori);
             }
 
-            printf("---------------------------------------------------------------\n");
+            printf("--------------------------------------------------------------------------------\n");
+
             printf("Tekan enter untuk kembali");
             getchar();
             getchar();
